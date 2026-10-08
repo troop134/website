@@ -1,47 +1,44 @@
 # Design
 
-Visual system for troop134.org. Inherited from the winning Scout entry (Design 2, troop vote 2026-10-06) and recorded from the built coming-soon page (`site/index.html`, `site/css/coming-soon.css`). The full site will merge ideas from all five entries; extend this world rather than replacing it unless the committee decides otherwise.
+Visual system for troop134.org, decided by Chandra 2026-10-07 after the Scout vote: **Scout Design 3 is the primary design** (header, navigation, every page, components, data files) and **Scout Design 2 is secondary**, supplying the home page hero (topo contours and the wooden trail sign). Recorded from the built site; extend this world rather than replacing it.
 
 ## World
 
-Northern California trail country: a forest-green field with brass topographic contours (`site/images/topo.svg`, the Scouts' own artwork), the troop badge, and wooden trail signs bolted to a post. Wayfinding, not marketing.
+A troop handbook in the troop's own colors: forest-green banner and nav with a gold rule, parchment page ground, white panels. The home page opens on Design 2's trail-country field: brass topographic contours (`site/images/topo.svg`, the Scouts' artwork), the troop badge, and a wooden arrow sign for the meeting.
 
-## Color
+## Color (`site/css/styles.css` `:root`)
 
 | Token | Hex | Role |
 |---|---|---|
-| `--forest` | #183326 | Page field |
-| `--forest-deep` | #10241A | Field fade at the bottom |
-| `--parchment` | #F4EBD3 | Headings, strong text |
-| `--parchment-dim` | #E3D8BB | Body text on forest (9.6:1) |
-| `--gold` | #D9AE55 | Accent word in headings, sign labels, focus ring (6.6:1 on forest) |
-| `--gold-hi` | #E9C46F | Sign label on hover |
-| `--wood` | #5B3E22 | Trail-sign board |
-| `--wood-dark` | #3F2A16 | Post |
-| `--wood-text` / `--wood-sub` | #F7EBCF / #E6D6B3 | Board text (8.2:1 / 6.8:1) |
+| `--forest` | #23422E | Banner, headings accents |
+| `--forest-deep` | #15291C | Nav bar, home hero field, footer |
+| `--gold` | #C9A24A | Rules under banner and hero, focus ring, accent words on dark |
+| `--ground` | #F4F1E8 | Page background |
+| `--panel` | #FFFFFF | Cards, panels |
+| `--red` / `--btn` | #A8322C | Primary buttons (Join Us) |
+| `--link` | #8E2A25 | Links on light ground |
+| `--river` | #2C5B7A | Event type accents |
+| Trail-sign wood | #5B3E22 | Home hero meeting sign (text #F7EBCF / #E6D6B3) |
 
-Design 2 also defines a light paper theme (`--paper` #FBF7EC, `--brass` #8F6418 for text-safe brass, `--river` #2E5D74 links) for content pages; adopt it when inner pages are built.
+Dark mode follows `prefers-color-scheme` and the header toggle (`data-theme`).
 
 ## Type
 
-- Display: Zilla Slab 700, `clamp(2.6rem, 7.2vw, 4.6rem)`, one accent word in gold.
-- Body: Atkinson Hyperlegible 400/700, 1.0625rem/1.6 (chosen for legibility for every family).
-- Sign lettering: Overpass 600 to 800; labels uppercase, 0.16em tracking, set vertically on the board.
-- Loaded from Google Fonts with `display=swap`.
+- Display: Bitter 600 to 800 (h1 on the home hero `clamp(2.1rem, 5.4vw, 3.5rem)`, accent phrase in gold).
+- Body and UI: Source Sans 3 400/600/700, 17px/1.6.
+- Small caps labels: Source Sans 3 700, uppercase, 0.14em to 0.16em tracking (footer headings, sign label).
 
 ## Components
 
-- **Signpost**: a post (`.signpost::before`) with stacked `.board` links, each an arrow-ended wooden board (clip-path) with a vertical gold label, a bold line and a sub line. Boards stagger right by 0.6 to 0.9rem. Use for the few most important destinations, never as general cards.
-- **Badge**: the official logo, never recolored or cropped, with a soft drop shadow; 440px desktop, 180px phone (top left).
+- **Banner + topnav** (Design 3): logo, name, PayPal donate; sticky nav with dropdowns, Join Us button, theme toggle; mobile menu button.
+- **Geo hero** (Design 2, home only): full-bleed forest field, topo overlay, badge right (420px; 170px top-left on phones), headline, lede, trail sign, Join Us + Instagram buttons, gold rule below. The trail sign swings once and settles (off for reduced motion).
+- **Stats row, cards with round icon, Coming Up panel, event cards, footer** (Design 3).
+- Empty states come from `js/site.js`: no events shows "Troop meetings every Tuesday at 7:00 PM"; no albums shows "Photo albums are coming soon".
 
-## Motion
+## Data (edit these, not the pages)
 
-One moment: boards swing on their bolt and settle (`settle`, 1.5s, cubic-bezier(.16,1,.3,1)), staggered 0.15s. Visible from the first frame; disabled under `prefers-reduced-motion`. Hover tilts a board -1.2deg.
-
-## Layout
-
-Full-viewport field. Desktop: copy left, badge right (1.1fr / 0.9fr, max 72rem). Phone (760px and below): badge, headline, text, signpost in one column; fits 375x812 without scrolling. Tap targets at least 48px.
+`site/data/site.js` (troop facts, role emails, Eagles, stats, links), `site/data/events.txt` (events), `site/images/albums/<YYYY-MM Name>/` + Update Site (photos). See `site/HOW-TO-UPDATE.txt`.
 
 ## Rules carried from the Scout spec
 
-No eyebrow labels above headings; no Scout last names, photos without permission, or personal adult contacts; no dollar amounts.
+No Scout last names (Eagles as first name + last initial), no Scout photos without parent permission, group role emails only, no dollar amounts, no invented events.

@@ -19,7 +19,8 @@ Public website for Scouts BSA Troop 134 (Folsom, CA) at troop134.org. Built by t
 
 ## Status (2026-10-07)
 
-- Coming-soon page live on the Worker; troop134.org apex/www still point at Wix until the cutover (Wix ends 2026-11-07). Cutover = add troop134.org and www as custom domains on the Worker in Cloudflare, replacing the Wix DNS records.
-- Next: merge the best of the five Scout designs into the full site (spec: `boyscout-troop134/wiki/drafts/2026-09-26-troop-website-spec.md`).
+- Full site = Scout Design 3 (primary) + Design 2 home hero (secondary), per Chandra. Content lives in `site/data/` (see `site/HOW-TO-UPDATE.txt`); after adding photo albums run `python3 site/update-site.py` and commit `data/albums.js`.
+- Tool files (`update-site.py`, `Update Site*`, `HOW-TO-UPDATE.txt`) are kept out of the published site by `site/.assetsignore`.
+- troop134.org apex/www still point at Wix; cutover (custom domains on the Worker) deferred by Chandra, must land before 2026-11-07.
 
 Jev: no (static website; no judgment step to type or gate).
