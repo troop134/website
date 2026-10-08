@@ -1,0 +1,10 @@
+// Cloudflare Workers static assets config for troop134.org.
+// Publishes everything in site/ as-is; there is no build step.
+{
+  "name": "troop134",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./site",
+    "not_found_handling": "404-page"
+  }
+}

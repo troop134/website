@@ -18,6 +18,6 @@ In October 2026 the troop voted on five Scout-built designs. The new site brings
 
 ## Hosting
 
-Static site on Cloudflare Pages (account: webmaster@troop134.org). DNS for troop134.org is on the same Cloudflare account.
+Static site on Cloudflare Workers static assets, Worker `troop134` (account: webmaster@troop134.org). `wrangler.jsonc` holds the config. DNS for troop134.org is on the same Cloudflare account.
 
-Everything the public sees lives in `site/` (start at `site/index.html`). Cloudflare publishes that folder as-is; there is no build step. Files outside `site/` (this README, `.github/`) are never published.
+Everything the public sees lives in `site/` (start at `site/index.html`). Cloudflare publishes that folder as-is; there is no build step. Files outside `site/` (this README, `.github/`, `wrangler.jsonc`) are never published.
