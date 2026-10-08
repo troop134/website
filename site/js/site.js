@@ -230,7 +230,7 @@
   R["donate"] = function (el) {
     var u = (S.urls || {}).donate, f = leader("fundraising");
     if (u) { el.innerHTML = '<a class="btn btn-paypal btn-lg" href="' + esc(u) + '"' + ext(u) + ">Donate with <b>PayPal</b></a>"; }
-    else if (f) { el.innerHTML = '<a class="btn btn-paypal btn-lg" href="mailto:' + esc(f.email) + '?subject=Donation%20to%20Troop%20134">Donate with <b>PayPal</b></a>'; }
+    else if (f) { el.innerHTML = '<a class="btn btn-primary btn-lg" href="mailto:' + esc(f.email) + '?subject=Donation%20to%20Troop%20134">Email ' + esc(f.email) + '</a>'; }
   };
 
   R["home-photo"] = function (el) {

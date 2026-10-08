@@ -42,7 +42,9 @@ Built by the troop's own Scouts, not a template service. The site itself is evid
 ## Evidence on Hand
 
 - Five Scout designs: Design 2 (winner) and 3, 5 at trail.troop134.org/website-vote/design-N/; Design 1 at sanuslide.github.io/troop-134-website; Design 4 on Netlify (404 at 2026-10-07).
-- Council Eagle list: 59 Eagles 1968 to 2026, for a future Wall of Honor (first name, last initial, year only; three pre-1992 entries unconfirmed).
+- Council Eagle list: 59 Eagles 1968 to 2026 (pre-1992 entries confirmed by Chandra 2026-10-07), on the Eagles page as first name, last initial, year.
+- No PayPal account: donations go through the Support page and fundraising@troop134.org (Chandra 2026-10-07).
+- No confirmed events yet (Chandra 2026-10-07).
 - Site base is Scout Design 3 with Design 2's home hero (Chandra, 2026-10-07).
 - No testimonials, permissioned photos or confirmed events yet. Do not invent them. Parade photo (in the Design 3 source, not in this repo) stays out until parent permission is confirmed; then add it to `site/images/home/` and set `home.photo` in `site/data/site.js`.
 

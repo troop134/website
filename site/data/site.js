@@ -63,8 +63,7 @@ window.SITE = {
   ],
 
   /* Eagle Scouts: first name and last initial, plus year. Source: council Eagle list sent
-     2026-10-07 (59 names). The 5 Eagles from 1968 to 1988 are left off until leaders confirm
-     they belong to this Troop 134 (the current charter dates from about 1992). */
+     2026-10-07; the 1968 to 1988 Eagles confirmed as this troop by Chandra the same day. */
   "eagles": [
     { "name": "Daiwik K.", "year": 2026 },
     { "name": "Angad S.", "year": 2025 },
@@ -119,7 +118,12 @@ window.SITE = {
     { "name": "Tyler T.", "year": 2010 },
     { "name": "Jonathan A.", "year": 2007 },
     { "name": "Anthony L.", "year": 2001 },
-    { "name": "Christian H.", "year": 1993 }
+    { "name": "Christian H.", "year": 1993 },
+    { "name": "Brian B.", "year": 1988 },
+    { "name": "Daniel W.", "year": 1973 },
+    { "name": "Walter Y.", "year": 1973 },
+    { "name": "Douglas M.", "year": 1968 },
+    { "name": "Mike G.", "year": 1968 }
   ],
 
   /* Forms and documents */
@@ -164,7 +168,7 @@ window.SITE = {
   "stats": {
     "yearsActive": 34,
     "scouts": 27,
-    "eagles": 54,
+    "eagles": 59,
     "campoutsThisYear": null
   }
 };
