@@ -16,6 +16,10 @@ In October 2026 the troop voted on five Scout-built designs. The new site brings
 - Photos of Scouts only with the troop's photo permission on file.
 - No passwords, API keys or other secrets in this repo. It is public.
 
+## Analytics
+
+Page views are counted with Umami Cloud (cookieless, no personal data), account webmaster@troop134.org. New pages must include the Umami `<script>` tag from any existing page's `<head>`.
+
 ## Hosting
 
 Static site on Cloudflare Workers static assets, Worker `troop134` (account: webmaster@troop134.org). `wrangler.jsonc` holds the config. DNS for troop134.org is on the same Cloudflare account.
