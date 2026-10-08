@@ -1,0 +1,71 @@
+TROOP 134 WEBSITE: HOW TO UPDATE IT
+===================================
+
+You never need to edit the web pages themselves. Everything that changes
+lives in a few plain files.
+
+
+1. EVENTS  (data/events.txt)
+----------------------------
+Open data/events.txt in Notepad (Windows) or TextEdit (Mac).
+Each event is a short block like this, with a blank line between events:
+
+    Title: Fall Campout
+    Date: 2026-10-16 to 2026-10-18
+    Type: campout
+    Location: TBD
+    Details: Bring your Class A uniform for the flag ceremony.
+    Signup: https://forms.gle/your-google-form
+
+Only Title and Date are required. Instructions are at the top of the file.
+Past events disappear from the website on their own.
+
+Then commit data/events.txt in a pull request (see the README). Once it is merged, the Events page, the calendar
+and "Coming Up" on the home page update on their own.
+
+(To see the change when you open index.html by double-clicking it on
+ your own computer, also run "Update Site", described below.)
+
+
+2. PHOTO ALBUMS  (images/albums/)
+---------------------------------
+Each folder inside images/albums/ is one album. The Photos page reads the
+folders itself: add a folder and a new album appears; add or delete photos
+and the album and its photo count change to match. Nothing else to edit.
+
+  Name folders like this:   2026-06 Summer Camp
+                            2026-10 Eternal Flames Campout
+  The year and month at the front set the album date and the order
+  (newest first). They are not shown in the title.
+  A name without a date (for example "Service Projects") also works.
+
+  Put the photos inside the folder (.jpg, .png, .webp, .gif).
+  They show in file-name order. Other files are ignored.
+  To pick the album cover, name one photo "cover.jpg".
+  Photos under 1 MB load fastest on phones.
+  An empty folder is not shown.
+
+  ONLY use photos of Scouts whose parents have given permission.
+
+Then run "Update Site" (below) so data/albums.js lists the new album, and
+commit the folder and data/albums.js together in a pull request. The site is
+hosted on Cloudflare, which cannot list folders, so the album list always
+comes from data/albums.js.
+
+"UPDATE SITE" (rebuilds the album list)
+  Opening index.html by double-clicking it, or a host that can't list
+  folders, uses a saved list instead. To refresh that list:
+    Mac:      double-click  "Update Site (Mac).command"
+    Windows:  double-click  "Update Site (Windows).bat"
+  It also shows any album or event it could not read.
+  Python 3 is needed for this. Macs offer to install it the first time.
+  On Windows, install it from https://www.python.org/downloads/ and tick
+  "Add python.exe to PATH".
+
+
+3. EVERYTHING ELSE  (data/site.js)
+----------------------------------
+Meeting time and place, leaders' troop email addresses, links, documents,
+Eagle Scouts, fundraisers, the donate link and the home page numbers are
+in data/site.js. Open it in a text editor, change the text between the
+quotes, and keep the commas.

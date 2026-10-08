@@ -1,0 +1,28 @@
+# ===================== TROOP 134 EVENTS =====================
+# Edit this file in Notepad (Windows) or TextEdit (Mac) to change
+# the Events page, the calendar, and "Coming Up" on the home page.
+#
+# HOW TO ADD AN EVENT
+#   Copy an event below, paste it at the end, and change the details.
+#   Leave ONE BLANK LINE between events.
+#
+# THE LINES YOU CAN USE (only Title and Date are required)
+#   Title:    Name of the event
+#   Date:     2026-10-16            (one day)
+#             2026-10-16 to 2026-10-18   (several days)
+#             10/16/2026 also works
+#   Time:     7:00 PM               (leave off for all-day or overnight events)
+#   Type:     campout, hike, backpacking, service, court of honor,
+#             fundraiser, or special
+#   Location: Where it is, or TBD
+#   Details:  One or two sentences for families
+#   Signup:   Link to a Google Form. A Sign Up button appears on the event.
+#
+# Past events disappear from the website on their own. You can leave
+# them here or delete them.
+# Lines that start with # are notes and are ignored.
+# Tuesday troop meetings are added to the calendar automatically.
+# ==============================================================
+
+# No confirmed events yet. Add real events here; until then the site shows
+# "Troop meetings every Tuesday at 7:00 PM".
