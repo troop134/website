@@ -10,6 +10,10 @@ Public website for Scouts BSA Troop 134 (Folsom, CA) at troop134.org. Built by t
 - `PRODUCT.md` (product truth, youth-protection rules), `DESIGN.md` (visual system). Read both before UI work, and use the impeccable skill.
 - Committee context, decisions and TODOs live in `~/my-world/projects/boyscout-troop134/` (TODO row "Build new troop134.org").
 
+## Analytics
+
+- Umami Cloud (free Hobby plan), account webmaster@troop134.org, website "Troop 134", ID `ba974b74-b465-48cd-b8ee-c83ded43986d`. The script tag sits in every page `<head>` with `data-domains="troop134.org,www.troop134.org"`, so previews and workers.dev are not counted. Cookieless; no consent banner needed. Every new page needs the same tag.
+
 ## Rules
 
 - Changes go through a pull request; `main` needs one approval from the Adult Reviewers team (CODEOWNERS). Org owners can bypass only for emergencies.
@@ -21,6 +25,6 @@ Public website for Scouts BSA Troop 134 (Folsom, CA) at troop134.org. Built by t
 
 - Full site = Scout Design 3 (primary) + Design 2 home hero (secondary), per Chandra. Content lives in `site/data/` (see `site/HOW-TO-UPDATE.txt`); after adding photo albums run `python3 site/update-site.py` and commit `data/albums.js`.
 - Tool files (`update-site.py`, `Update Site*`, `HOW-TO-UPDATE.txt`) are kept out of the published site by `site/.assetsignore`.
-- troop134.org apex/www still point at Wix; cutover (custom domains on the Worker) deferred by Chandra, must land before 2026-11-07.
+- troop134.org and www are custom domains on the Worker (cutover 2026-10-07); Always Use HTTPS on, TLS 1.2 minimum; registrar is Cloudflare (expires 2027-11-10).
 
 Jev: no (static website; no judgment step to type or gate).
