@@ -1,0 +1,6 @@
+.impeccable/review/
+.impeccable/mocks/
+.impeccable/config.local.json
+.wrangler/
+node_modules/
+.DS_Store
