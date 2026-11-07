@@ -22,7 +22,7 @@
       <img src="images/logo/troop-134-logo-512.webp" width="512" height="511" alt="Troop 134 logo">
       <span><span class="site-name">Troop 134</span><span class="site-sub">Scouts BSA · Folsom, California</span></span>
     </a>
-    <a class="btn btn-paypal" href="support.html" data-link="donate">Donate</a>
+    <a class="btn btn-paypal" href="support.html#donate" data-link="donate">Donate</a>
   </div>
 </header>
 <nav class="topnav" aria-label="Main menu">
@@ -60,9 +60,12 @@
   <div class="page-head"><div class="eyebrow">Support the Troop</div><h1>Support Troop 134</h1>
     <p>Fundraisers keep campouts and summer camp affordable for every Scout, and pay for tents, stoves and other troop gear.</p></div>
   <div class="role-grid" data-render="fundraisers"></div>
-  <section class="panel" style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between">
-    <div style="flex:1 1 320px"><h2>Make a donation</h2><p>Gifts of any size help pay for campouts, summer camp and troop gear. To donate, email our fundraising team and they will tell you how to give.</p></div>
-    <div data-render="donate"></div>
+  <section class="panel" id="donate" style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;scroll-margin-top:80px">
+    <div style="flex:1 1 320px"><h2>Make a donation</h2><p>Your gift helps pay for campouts, summer camp and troop gear. Each donation is $20. To give more, raise the Quantity: 2 gives $40, 5 gives $100. You can pay with PayPal, Venmo or a debit or credit card. Questions? Email <a data-email="fundraising"></a>.</p></div>
+    <div style="flex:1 1 280px;max-width:400px">
+      <div id="paypal-container-CM5UFR7PTJX8L"></div>
+      <noscript><p>Please turn on JavaScript to donate online, or email fundraising@troop134.org.</p></noscript>
+    </div>
   </section>
 </main>
 <footer>
@@ -91,5 +94,17 @@
 <script src="data/events.js"></script>
 <script src="data/albums.js"></script>
 <script src="js/site.js"></script>
+<script
+  src="https://www.paypal.com/sdk/js?client-id=BAArLi-ywFrWmZHXAKtPndT0SlbDj9Y_tGDaOwzpTciDDAca97Wwh15UK6nilSlrMs6WIF0ZhDURVdlU5k&components=hosted-buttons&enable-funding=venmo&currency=USD">
+</script>
+<script>
+  /* PayPal hosted donate button (button ID CM5UFR7PTJX8L, set up in the troop PayPal account). */
+  if (window.paypal && paypal.HostedButtons) {
+    paypal.HostedButtons({ hostedButtonId: "CM5UFR7PTJX8L" }).render("#paypal-container-CM5UFR7PTJX8L");
+  } else {
+    document.getElementById("paypal-container-CM5UFR7PTJX8L").innerHTML =
+      '<a class="btn btn-primary btn-lg" href="mailto:fundraising@troop134.org?subject=Donation%20to%20Troop%20134">Email fundraising@troop134.org</a>';
+  }
+</script>
 </body>
 </html>
