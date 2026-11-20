@@ -177,7 +177,20 @@
   counted("elevation_ft", "climbed", "climbed", function (n) { return n.toLocaleString("en-US") + " ft"; });
   counted("service_hours", "service hour", "service hours");
   counted("scouts_attended", "Scout", "Scouts");
-  if (str(st.weather)) tile(str(st.weather), "weather", "is-word");
+  // Weather: one drawn icon per condition the Scout ticked, the words under it (form choices:
+  // Sunny, Cloudy, Windy, Rain, Snow, Hot, Cold). A word with no icon still shows as text.
+  var CLOUD = "M7 18h10a4 4 0 0 0 .6-7.96A6 6 0 0 0 6.2 9.6 4.2 4.2 0 0 0 7 18z";
+  var WEATHER_ICONS = {
+    sunny: ["c12,12,4", "M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"],
+    cloudy: [CLOUD],
+    windy: ["M3 8h11a3 3 0 1 0-3-3", "M3 12h16a3 3 0 1 1-3 3", "M3 16h7"],
+    rain: ["M7 15h10a4 4 0 0 0 .6-7.96A6 6 0 0 0 6.2 6.6 4.2 4.2 0 0 0 7 15z", "M8 18l-1 3M12 18l-1 3M16 18l-1 3"],
+    snow: ["M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9", "M9.5 4.5L12 6.5l2.5-2M9.5 19.5L12 17.5l2.5 2"],
+    hot: ["M10 13.5V5a2 2 0 1 1 4 0v8.5a4 4 0 1 1-4 0z", "M12 9v7"],
+    cold: ["M10 13.5V5a2 2 0 1 1 4 0v8.5a4 4 0 1 1-4 0z", "M12 15v1", "M18 4v4M16 6h4"]
+  };
+  var weather = str(st.weather).split(",").map(str).filter(Boolean);
+  if (weather.length) tiles.push({ weather: weather, word: "weather" });
   function stars(key, word) {
     var n = num(st[key]); if (n == null) return;
     n = Math.max(0, Math.min(5, Math.round(n)));
@@ -192,7 +205,17 @@
     var ul = $("stats");
     tiles.forEach(function (t) {
       var li = el("li", "ep-stat" + (t.cls ? " " + t.cls : ""));
-      if (t.stars != null) {
+      if (t.weather) {
+        li.classList.add("is-weather");
+        var wrow = el("span", "ep-weather-icons"); wrow.setAttribute("aria-hidden", "true");
+        t.weather.forEach(function (w) {
+          var paths = WEATHER_ICONS[w.toLowerCase()];
+          if (paths) wrow.appendChild(icon(paths));
+        });
+        if (wrow.childNodes.length) li.appendChild(wrow);
+        li.appendChild(el("b", null, t.weather.join(" · ")));
+        li.appendChild(el("span", "ep-stat-word", t.word));
+      } else if (t.stars != null) {
         li.classList.add("is-stars");
         var row = el("span", "ep-stars"); row.setAttribute("aria-hidden", "true");
         for (var k = 1; k <= 5; k++) row.appendChild(icon(["M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8-4.3-4.1 5.9-.8z"], k <= t.stars ? "on" : ""));
