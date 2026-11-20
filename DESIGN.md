@@ -33,11 +33,11 @@ Dark mode follows `prefers-color-scheme` and the header toggle (`data-theme`).
 - **Banner + topnav** (Design 3): logo, name, PayPal donate; sticky nav with dropdowns, Join Us button, theme toggle; mobile menu button.
 - **Geo hero** (Design 2, home only): full-bleed forest field, topo overlay, badge right (420px; 170px top-left on phones), headline, lede, trail sign, Join Us + Instagram buttons, gold rule below. The trail sign swings once and settles (off for reduced motion).
 - **Stats row, cards with round icon, Coming Up panel, event cards, footer** (Design 3).
-- Empty states come from `js/site.js`: no events shows "Troop meetings every Tuesday at 7:00 PM"; no albums shows "Photo albums are coming soon".
+- Empty states come from `js/site.js`: no events shows "Troop meetings every Tuesday at 7:00 PM"; no albums (or a failed load) shows "Photo albums are coming soon".
 
 ## Data (edit these, not the pages)
 
-`site/data/site.js` (troop facts, role emails, Eagles, stats, links), `site/data/events.txt` (events), `site/images/albums/<YYYY-MM Name>/` + Update Site (photos). See `site/HOW-TO-UPDATE.txt`.
+`site/data/site.js` (troop facts, role emails, Eagles, stats, links), `site/data/events.txt` (events), photo albums come from the album form via `events/index.json` in the photo bucket. See `site/HOW-TO-UPDATE.txt`.
 
 ## Rules carried from the Scout spec
 

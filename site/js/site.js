@@ -33,7 +33,6 @@
     return EVENTS.filter(function (e) { return (e.end || e.start) >= t; })
       .sort(function (x, y) { return x.start < y.start ? -1 : x.start > y.start ? 1 : 0; });
   }
-  function encPath(p) { return String(p).split("/").map(encodeURIComponent).join("/"); }
 
   /* ---------- events.txt reader (same rules as update-site.py) ---------- */
   var KNOWN_TYPES = ["campout", "hike", "backpacking", "service", "court-of-honor", "fundraiser", "special"];
@@ -71,7 +70,7 @@
   function loadEvents(done) {
     var fallback = function () { done(window.SITE_EVENTS || S.events || []); };
     if (!/^https?:$/.test(location.protocol) || !window.fetch) { fallback(); return; }
-    fetch("data/events.txt", { cache: "no-cache" })
+    fetch("/data/events.txt", { cache: "no-cache" })
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
       .then(function (t) { done(parseEventsText(t)); })
       .catch(fallback);
@@ -245,125 +244,6 @@
     el.innerHTML = '<a class="btn btn-secondary" href="' + esc(u) + '"' + ext(u) + ">Send us a question</a>";
   };
 
-  /* Photo albums + gallery dialog */
-  /* ---------- Photo albums: read the folders in images/albums/ ----------
-     1. Amazon S3: lists the bucket (needs "photos.s3ListUrl" in data/site.js; see HOW-TO-UPDATE.txt)
-     2. Any host that shows folder listings: reads the folder pages
-     3. Otherwise (or when opened by double-click): data/albums.js made by "Update Site"   */
-  var ALBUM_ROOT = "images/albums/";
-  var IMG_RE = /\.(jpe?g|png|webp|gif|svg|avif)$/i;
-  function albumsFromFiles(map) {           /* map: { "2026-06 Summer Camp": ["01.jpg", ...] } */
-    var list = Object.keys(map).map(function (folder) {
-      var files = map[folder].filter(function (f) { return IMG_RE.test(f) && f.charAt(0) !== "."; })
-        .sort(function (a, b) { return a.localeCompare(b, undefined, { numeric: true }); });
-      if (!files.length) return null;
-      var cover = files.filter(function (f) { return /^cover\./i.test(f); })[0] || files[0];
-      files = [cover].concat(files.filter(function (f) { return f !== cover; }));
-      var m = folder.match(/^(\d{4})-(\d{2})\s+(.+)$/) || folder.match(/^(\d{4})()\s+(.+)$/);
-      var title = m ? m[3].trim() : folder, date = m ? (m[2] ? m[1] + "-" + m[2] : m[1]) : "";
-      var base = ALBUM_ROOT + folder + "/";
-      return { title: title, date: date, folder: folder, cover: base + cover, photos: files.map(function (f) { return base + f; }) };
-    }).filter(Boolean);
-    return list.filter(function (a) { return a.date; }).sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; })
-      .concat(list.filter(function (a) { return !a.date; }).sort(function (a, b) { return a.title.localeCompare(b.title); }));
-  }
-  function listS3(url, done, fail) {
-    var map = {}, prefix = ALBUM_ROOT;
-    (function page(token) {
-      var q = url.replace(/\/+$/, "") + "/?list-type=2&prefix=" + encodeURIComponent(prefix) + (token ? "&continuation-token=" + encodeURIComponent(token) : "");
-      fetch(q, { cache: "no-cache" }).then(function (r) { if (!r.ok) throw new Error("S3 " + r.status); return r.text(); }).then(function (xml) {
-        var doc = new DOMParser().parseFromString(xml, "application/xml");
-        Array.prototype.forEach.call(doc.getElementsByTagName("Key"), function (k) {
-          var rest = k.textContent.slice(prefix.length).split("/");
-          if (rest.length === 2 && rest[0] && rest[1]) (map[rest[0]] = map[rest[0]] || []).push(rest[1]);
-        });
-        var next = doc.getElementsByTagName("NextContinuationToken")[0];
-        if (next && next.textContent) page(next.textContent); else done(albumsFromFiles(map));
-      }).catch(fail);
-    })();
-  }
-  function listingLinks(url) {               /* returns child names from a web server folder listing */
-    return fetch(url, { cache: "no-cache" }).then(function (r) {
-      if (!r.ok) throw new Error(r.status);
-      return r.text();
-    }).then(function (html) {
-      var base = new URL(url, location.href), out = [];
-      var doc = new DOMParser().parseFromString(html, "text/html");
-      Array.prototype.forEach.call(doc.querySelectorAll("a[href]"), function (a) {
-        var href = a.getAttribute("href"); if (!href || href.charAt(0) === "?" || href.charAt(0) === "#") return;
-        var abs = new URL(href, base);
-        if (abs.origin !== base.origin || abs.pathname.indexOf(base.pathname) !== 0) return;
-        var rest = decodeURIComponent(abs.pathname.slice(base.pathname.length));
-        if (!rest || rest === "/" || /\/./.test(rest.replace(/\/$/, ""))) return;   /* direct children only */
-        if (out.indexOf(rest) < 0) out.push(rest);
-      });
-      return out;
-    });
-  }
-  function listFolders(done, fail) {
-    listingLinks(ALBUM_ROOT).then(function (items) {
-      var folders = items.filter(function (n) { return /\/$/.test(n); }).map(function (n) { return n.slice(0, -1); });
-      if (!folders.length) throw new Error("no folder listing");
-      var map = {};
-      return Promise.all(folders.map(function (f) {
-        return listingLinks(ALBUM_ROOT + encodeURIComponent(f) + "/").then(function (files) {
-          map[f] = files.filter(function (n) { return !/\/$/.test(n); });
-        });
-      })).then(function () { done(albumsFromFiles(map)); });
-    }).catch(fail);
-  }
-  function loadAlbums(done) {
-    var fallback = function () { done(window.SITE_ALBUMS || S.albums || []); };
-    if (!/^https?:$/.test(location.protocol) || !window.fetch || !window.DOMParser) { fallback(); return; }
-    var s3 = (S.photos || {}).s3ListUrl;
-    var tryListing = function () { listFolders(done, fallback); };
-    if (s3) listS3(s3, done, tryListing); else tryListing();
-  }
-
-  R["albums"] = function (el) {
-    el.innerHTML = '<p class="note">Loading albums…</p>';
-    loadAlbums(function (albums) { renderAlbums(el, albums); });
-  };
-  function renderAlbums(el, albums) {
-    if (!albums.length) { el.innerHTML = '<p class="note">Photo albums are coming soon. Follow us on Instagram for the latest pictures.</p>'; return; }
-    el.innerHTML = albums.map(function (a, i) {
-      var d = a.date ? parseDate(a.date) : null;
-      return '<button type="button" class="album" data-album="' + i + '"><img src="' + esc(encPath(a.cover)) + '" alt="" loading="lazy">' +
-        '<span class="album-info"><b>' + esc(a.title) + "</b><small>" + (d ? MONTHS[d.getMonth()] + " " + d.getFullYear() : "") +
-        " · " + (a.photos || []).length + " photo" + ((a.photos || []).length === 1 ? "" : "s") + "</small></span></button>";
-    }).join("");
-    var dlg = document.createElement("dialog");
-    dlg.className = "gallery";
-    dlg.setAttribute("aria-label", "Photo album");
-    document.body.appendChild(dlg);
-    var cur = null, idx = 0;
-    function show() {
-      var ph = cur.photos || [];
-      dlg.innerHTML = '<div class="g-head"><h2>' + esc(cur.title) + '</h2><button type="button" class="g-close" aria-label="Close album">✕</button></div>' +
-        (ph.length ? '<figure class="g-main"><img src="' + esc(encPath(ph[idx])) + '" alt="' + esc(cur.title + ", photo " + (idx + 1) + " of " + ph.length) + '">' +
-          '<figcaption>' + (idx + 1) + " / " + ph.length + '</figcaption></figure>' +
-          '<div class="g-nav"><button type="button" class="btn btn-secondary g-prev">‹ Previous</button><button type="button" class="btn btn-secondary g-next">Next ›</button></div>' +
-          '<div class="g-thumbs">' + ph.map(function (p, i) { return '<button type="button" class="g-thumb' + (i === idx ? " on" : "") + '" data-i="' + i + '" aria-label="Photo ' + (i + 1) + '"><img src="' + esc(encPath(p)) + '" alt="" loading="lazy"></button>'; }).join("") + "</div>"
-          : '<p class="g-empty">Photos from this event are coming soon.</p>');
-    }
-    el.addEventListener("click", function (ev) {
-      var b = ev.target.closest("[data-album]"); if (!b) return;
-      cur = albums[+b.getAttribute("data-album")]; idx = 0; show();
-      if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
-    });
-    dlg.addEventListener("click", function (ev) {
-      var n = (cur.photos || []).length;
-      if (ev.target === dlg || ev.target.closest(".g-close")) { dlg.close ? dlg.close() : dlg.removeAttribute("open"); return; }
-      if (ev.target.closest(".g-prev")) { idx = (idx - 1 + n) % n; show(); }
-      if (ev.target.closest(".g-next")) { idx = (idx + 1) % n; show(); }
-      var t = ev.target.closest(".g-thumb"); if (t) { idx = +t.getAttribute("data-i"); show(); }
-    });
-    dlg.addEventListener("keydown", function (ev) {
-      var n = (cur && cur.photos || []).length; if (!n) return;
-      if (ev.key === "ArrowLeft") { idx = (idx - 1 + n) % n; show(); }
-      if (ev.key === "ArrowRight") { idx = (idx + 1) % n; show(); }
-    });
-  };
 
   /* ---------- menu, view toggle, theme, print ---------- */
   function nav() {

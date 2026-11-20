@@ -21,9 +21,10 @@ Public website for Scouts BSA Troop 134 (Folsom, CA) at troop134.org. Built by t
 - Preview locally: `python3 -m http.server 8734 --directory site`, or `npx wrangler dev`.
 - Never use em dashes in copy.
 
-## Status (2026-10-07)
+## Status (2026-11-19)
 
-- Full site = Scout Design 3 (primary) + Design 2 home hero (secondary), per Chandra. Content lives in `site/data/` (see `site/HOW-TO-UPDATE.txt`); after adding photo albums run `python3 site/update-site.py` and commit `data/albums.js`.
+- Full site = Scout Design 3 (primary) + Design 2 home hero (secondary), per Chandra. Content lives in `site/data/` (see `site/HOW-TO-UPDATE.txt`).
+- Photo albums (2026-11-19): `/photos` is the Photos wall (`site/js/albums-wall.js`, reads `https://media.troop134.org/events/index.json`); each card opens `/photos/<slug>`, built by `worker/photos.js`. The old folder mechanism (`data/albums.js`, `images/albums/`) is gone; albums come from the album form.
 - Tool files (`update-site.py`, `Update Site*`, `HOW-TO-UPDATE.txt`) are kept out of the published site by `site/.assetsignore`.
 - troop134.org and www are custom domains on the Worker (cutover 2026-10-07); Always Use HTTPS on, TLS 1.2 minimum; registrar is Cloudflare (expires 2027-11-10).
 

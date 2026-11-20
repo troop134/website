@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Template for /photos/<slug>. worker/photos.js fills the {{...}} parts from the event's event.json. -->
+<title>{{TITLE}}</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="{{DESCRIPTION}}">
+<link rel="canonical" href="{{CANONICAL}}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Troop 134">
+<meta property="og:title" content="{{TITLE}}">
+<meta property="og:description" content="{{DESCRIPTION}}">
+<meta property="og:image" content="{{OG_IMAGE}}">
+<meta property="og:url" content="{{CANONICAL}}">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/images/logo/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,600;0,700;0,800;1,600&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="/css/styles.css">
+<link rel="preconnect" href="https://media.troop134.org" crossorigin>
+<script>try{var t=localStorage.getItem("t134-theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="ba974b74-b465-48cd-b8ee-c83ded43986d" data-domains="troop134.org,www.troop134.org"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="banner">
+  <div class="banner-in">
+    <a class="brand" href="/index.html" aria-label="Troop 134 home">
+      <img src="/images/logo/troop-134-logo-512.webp" width="512" height="511" alt="Troop 134 logo">
+      <span><span class="site-name">Troop 134</span><span class="site-sub">Scouts BSA · Folsom, California</span></span>
+    </a>
+    <a class="btn btn-paypal" href="/support.html" data-link="donate">Donate</a>
+  </div>
+</header>
+<nav class="topnav" aria-label="Main menu">
+  <div class="topnav-in">
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navlist">☰ Menu</button>
+    <ul class="navlist" id="navlist">
+      <li><a href="/index.html">Home</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/events.html">Events</a></li>
+      <li class="current"><a href="/photos">Photos</a></li>
+      <li class="has-sub"><button class="subbtn" type="button" aria-expanded="false" aria-controls="dd4">Our Troop</button>
+        <ul class="dropdown" id="dd4">
+          <li><a href="/leaders.html">Our Leaders</a></li>
+          <li><a href="/scout-leadership.html">Scout Leadership</a></li>
+          <li><a href="/typical-year.html">Typical Year</a></li>
+          <li><a href="/eagles.html">Eagle Scouts</a></li>
+          <li><a href="/scout-oath-law.html">Scout Oath &amp; Law</a></li>
+        </ul>
+      </li>
+      <li class="has-sub"><button class="subbtn" type="button" aria-expanded="false" aria-controls="dd5">Resources</button>
+        <ul class="dropdown" id="dd5">
+          <li><a href="/resources.html">Resources</a></li>
+          <li><a href="/support.html">Support the Troop</a></li>
+        </ul>
+      </li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-tools">
+      <a class="btn btn-primary" href="/join.html">Join Us</a>
+      <button class="theme-toggle" type="button" aria-label="Switch to dark mode">☾</button>
+    </div>
+  </div>
+</nav>
+<main id="main" class="wrap ep">
+  <div class="ep-head">
+    <a class="ep-back" href="/photos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>All albums</a>
+    <h1 class="ep-title" data-ep="title">Photo album</h1>
+    <p class="ep-meta"><span data-ep="when"></span><span class="ep-badge" data-ep="category" hidden></span></p>
+  </div>
+
+  <section class="ep-carousel" data-ep="carousel" aria-roledescription="carousel" aria-label="Photos and videos" hidden>
+    <div class="ep-stage">
+      <div class="ep-track" tabindex="0" aria-label="Photos. Use the arrow keys to move." data-ep="track"></div>
+      <button class="ep-arrow ep-prev" type="button" aria-label="Previous photo" data-ep="prev"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+      <button class="ep-arrow ep-next" type="button" aria-label="Next photo" data-ep="next"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <p class="ep-count" aria-live="polite"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><span data-ep="count"></span></p>
+    </div>
+    <div class="ep-thumbs" data-ep="thumbs" aria-label="Jump to a photo"></div>
+  </section>
+
+  <ul class="ep-stats" data-ep="stats" aria-label="Trip numbers" hidden></ul>
+
+  <section class="ep-memories" data-ep="memories" aria-labelledby="ep-mem-h" hidden>
+    <div class="ep-mem-head">
+      <h2 id="ep-mem-h">Memories</h2>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6c3-1.3 6-1.3 9 .5 3-1.8 6-1.8 9-.5v13c-3-1.3-6-1.3-9 .5-3-1.8-6-1.8-9-.5z"/><path d="M12 6.5v13"/></svg>
+    </div>
+    <div data-ep="memory-list"></div>
+  </section>
+
+  <p class="ep-missing" data-ep="missing" hidden>We could not load this album. Please try again later, or <a href="/photos">see all albums</a>.</p>
+
+  <aside class="ep-join" aria-labelledby="ep-join-h">
+    <div class="ep-join-top">
+      <span class="ep-join-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l-5 6.5h3L6 15h12l-4-5.5h3z"/><path d="M12 15v6"/></svg></span>
+      <div>
+        <h2 id="ep-join-h">Want your Scout on the next trip?</h2>
+        <p>We meet Tuesdays at 7 PM at Journey Church in Folsom.</p>
+      </div>
+    </div>
+    <a class="btn btn-primary ep-join-btn" href="https://links.troop134.org/new-scout-signup" target="_blank" rel="noopener">Join Us<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  </aside>
+
+  <nav class="ep-pager" aria-label="More albums">
+    <span class="ep-pager-side" data-ep="older"></span>
+    <a class="ep-pager-all" href="/photos">All albums</a>
+    <span class="ep-pager-side ep-pager-right" data-ep="newer"></span>
+  </nav>
+
+  <p class="ep-takedown">Want a photo removed? Email <a href="mailto:webmaster@troop134.org">webmaster@troop134.org</a></p>
+</main>
+<footer>
+  <div class="foot-in">
+    <div>
+      <div class="foot-brand"><img src="/images/logo/troop-134-logo-512.webp" width="512" height="511" alt="Troop 134 logo"><div><b>Troop 134</b><br>Folsom, California</div></div>
+      <p style="margin-top:10px">Chartered by <span data-troop="charteredBy">American Legion Post 383</span>. <span data-troop="council">Greater California Council</span>, <span data-troop="district">American River District</span>.</p>
+    </div>
+    <div>
+      <h2>Meetings</h2>
+      <p><span data-meeting="when">Every Tuesday, 7:00 PM</span><br><span data-meeting="place">Journey Church, 450 Blue Ravine Road, Folsom, CA 95630</span></p>
+      <p style="margin-top:8px">Questions: <a data-email="committee"></a></p>
+    </div>
+    <div>
+      <h2>Members</h2>
+      <div data-render="members"></div>
+    </div>
+    <div>
+      <h2>Follow Us</h2>
+      <ul class="link-list"><li><a data-link="instagram">Instagram @troop134</a></li><li><a href="/support.html">Support the Troop</a></li><li><a data-email="web">Website feedback</a></li></ul>
+    </div>
+  </div>
+  <div class="foot-base">© <span data-year>2026</span> Troop 134, Folsom, California</div>
+</footer>
+<script id="event-data" type="application/json">{{EVENT_JSON}}</script>
+<script src="/data/site.js"></script>
+<script src="/js/site.js"></script>
+<script src="/js/event.js"></script>
+</body>
+</html>

@@ -1,12 +1,21 @@
 // Cloudflare Workers static assets config for troop134.org.
 // Publishes everything in site/ as-is; there is no build step.
+// One small Worker script (worker/photos.js) runs only for /photos/* to fill each
+// event page from the photo bucket (approved by Chandra 2026-11-19). /photos itself
+// stays the static photos.html. /event and /event.html (the raw template) return 404.
 {
   "name": "troop134",
   "compatibility_date": "2026-10-01",
+  "main": "worker/photos.js",
   "assets": {
     "directory": "./site",
-    "not_found_handling": "404-page"
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/photos/*", "/event", "/event.html"]
   },
+  "r2_buckets": [
+    { "binding": "ALBUMS", "bucket_name": "troop134-albums" }
+  ],
   // Required by `wrangler preview` (per-branch preview builds); empty is fine.
   "previews": {}
 }

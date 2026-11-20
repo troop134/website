@@ -2,10 +2,9 @@
 """
 Troop 134 - Update Site
 =======================
-Run this after you add, rename or remove photo album folders, or after you edit
-data/events.txt. It rebuilds two small files the website reads:
+Run this after you edit data/events.txt. It rebuilds one small file the
+website reads (photo albums come from the album form, not from here):
 
-  data/albums.js  - the list of photo albums, built from the folders in images/albums/
   data/events.js  - a copy of data/events.txt, so the site also works when you
                     open index.html by double-clicking it
 
@@ -19,11 +18,8 @@ Uses only standard Python 3. Nothing to install.
 import json, os, re, sys, datetime
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
-ALBUMS_DIR = os.path.join(ROOT, "images", "albums")
 EVENTS_TXT = os.path.join(ROOT, "data", "events.txt")
-IMAGE_EXT = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".svg"}
 TYPES = {"campout", "hike", "backpacking", "service", "court-of-honor", "fundraiser", "special"}
-BIG_FILE = 2 * 1024 * 1024
 warnings = []
 
 
@@ -86,45 +82,6 @@ def parse_events(text):
     return events
 
 
-# ---------------- Albums ----------------
-def album_from_folder(name):
-    m = re.match(r"^(\d{4})-(\d{2})\s+(.+)$", name)
-    if m:
-        return m.group(3).strip(), f"{m.group(1)}-{m.group(2)}"
-    m = re.match(r"^(\d{4})\s+(.+)$", name)
-    if m:
-        return m.group(2).strip(), m.group(1)
-    return name, ""
-
-
-def build_albums():
-    albums = []
-    if not os.path.isdir(ALBUMS_DIR):
-        warnings.append("No images/albums folder found.")
-        return albums
-    for folder in sorted(os.listdir(ALBUMS_DIR)):
-        path = os.path.join(ALBUMS_DIR, folder)
-        if folder.startswith(".") or not os.path.isdir(path):
-            continue
-        photos = sorted(f for f in os.listdir(path)
-                        if not f.startswith(".") and os.path.splitext(f)[1].lower() in IMAGE_EXT)
-        if not photos:
-            warnings.append(f'Album folder "{folder}" has no photos, so it is not shown.')
-            continue
-        for f in photos:
-            if os.path.getsize(os.path.join(path, f)) > BIG_FILE:
-                warnings.append(f'"{folder}/{f}" is over 2 MB. Smaller photos load faster on phones.')
-        cover = next((f for f in photos if os.path.splitext(f)[0].lower() == "cover"), photos[0])
-        photos = [cover] + [f for f in photos if f != cover]
-        title, date = album_from_folder(folder)
-        base = "images/albums/" + folder + "/"
-        albums.append({"title": title, "date": date, "folder": folder,
-                       "cover": base + cover, "photos": [base + f for f in photos]})
-    dated = sorted([a for a in albums if a["date"]], key=lambda a: a["date"], reverse=True)
-    undated = sorted([a for a in albums if not a["date"]], key=lambda a: a["title"].lower())
-    return dated + undated
-
-
 def write_js(path, var, data, note):
     with open(path, "w", encoding="utf-8") as f:
         f.write(f"/* {note}\n   Made by update-site.py on {datetime.datetime.now():%Y-%m-%d %H:%M}. Do not edit by hand. */\n")
@@ -140,20 +97,14 @@ def main():
         warnings.append("data/events.txt was not found.")
     write_js(os.path.join(ROOT, "data", "events.js"), "SITE_EVENTS", events,
              "Copy of data/events.txt for when the site is opened by double-clicking. Edit events.txt instead.")
-    albums = build_albums()
-    write_js(os.path.join(ROOT, "data", "albums.js"), "SITE_ALBUMS", albums,
-             "Photo albums, one per folder in images/albums/. Add or rename folders instead of editing this.")
 
     print("Troop 134 site updated.\n")
     print(f"  Events: {len(events)} read from data/events.txt")
-    print(f"  Albums: {len(albums)}")
-    for a in albums:
-        print(f"    - {a['title']}" + (f" ({a['date']})" if a['date'] else "") + f": {len(a['photos'])} photo(s)")
     if warnings:
         print("\nPlease check:")
         for w in warnings:
             print("  ! " + w)
-    print("\nNext: upload the whole site folder (or at least data/ and images/albums/) to the web host.")
+    print("\nNext: upload the whole site folder (or at least data/) to the web host.")
 
 
 if __name__ == "__main__":
