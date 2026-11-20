@@ -3,7 +3,7 @@
    Edit this file for meeting details, leaders' addresses, links,
    Eagle Scouts, fundraisers and stats.
      EVENTS:  edit data/events.txt instead (plain text).
-     PHOTOS:  add a folder per album in images/albums/, then run "Update Site".
+     PHOTOS:  come from the album form. Nothing to edit here.
    - Keep the commas between items and the quotes around text.
    - Leave a URL as "" to hide that button or link.
    - Youth protection: Scouts are listed by first name and last initial only.
@@ -48,7 +48,7 @@ window.SITE = {
   },
 
   /* EVENTS now live in data/events.txt (plain text, easy to edit).
-     PHOTO ALBUMS are the folders in images/albums/. After adding photos, run "Update Site". */
+     PHOTO ALBUMS come from the album form (see HOW-TO-UPDATE.txt). */
 
   /* Adult leadership roles: group addresses only, never personal contact info.
      key is used by the pages; do not change keys. */
@@ -142,13 +142,6 @@ window.SITE = {
     { "title": "Scout Shop", "url": "https://www.scoutshop.org" },
     { "title": "First Class Trail", "url": "https://trail.troop134.org" }
   ],
-
-  /* Photo albums are read from the folders in images/albums/.
-     The site is on Cloudflare, which cannot list folders: leave this "" and run Update Site
-     so data/albums.js lists the albums (see HOW-TO-UPDATE.txt). */
-  "photos": {
-    "s3ListUrl": ""
-  },
 
   /* Members-only tools (shown in the footer and on Resources). Empty url = hidden. */
   "members": [

@@ -27,41 +27,18 @@ and "Coming Up" on the home page update on their own.
  your own computer, also run "Update Site", described below.)
 
 
-2. PHOTO ALBUMS  (images/albums/)
----------------------------------
-Each folder inside images/albums/ is one album. The Photos page reads the
-folders itself: add a folder and a new album appears; add or delete photos
-and the album and its photo count change to match. Nothing else to edit.
+2. PHOTO ALBUMS
+---------------
+Photo albums come from the album form. Nothing to edit here.
 
-  Name folders like this:   2026-06 Summer Camp
-                            2026-10 Eternal Flames Campout
-  The year and month at the front set the album date and the order
-  (newest first). They are not shown in the title.
-  A name without a date (for example "Service Projects") also works.
-
-  Put the photos inside the folder (.jpg, .png, .webp, .gif).
-  They show in file-name order. Other files are ignored.
-  To pick the album cover, name one photo "cover.jpg".
-  Photos under 1 MB load fastest on phones.
-  An empty folder is not shown.
-
-  ONLY use photos of Scouts whose parents have given permission.
-
-Then run "Update Site" (below) so data/albums.js lists the new album, and
-commit the folder and data/albums.js together in a pull request. The site is
-hosted on Cloudflare, which cannot list folders, so the album list always
-comes from data/albums.js.
-
-"UPDATE SITE" (rebuilds the album list)
-  Opening index.html by double-clicking it, or a host that can't list
-  folders, uses a saved list instead. To refresh that list:
+"UPDATE SITE" (refreshes the events copy)
+  Opening index.html by double-clicking it uses a saved copy of the events.
+  To refresh that copy after you edit data/events.txt:
     Mac:      double-click  "Update Site (Mac).command"
     Windows:  double-click  "Update Site (Windows).bat"
-  It also shows any album or event it could not read.
   Python 3 is needed for this. Macs offer to install it the first time.
   On Windows, install it from https://www.python.org/downloads/ and tick
   "Add python.exe to PATH".
-
 
 3. EVERYTHING ELSE  (data/site.js)
 ----------------------------------
