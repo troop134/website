@@ -378,6 +378,11 @@ footer p{font-size:.95rem}
 .ep-stat.is-text{max-width:240px}
 .ep-stat.is-text b{font:600 1rem/1.35 var(--body);color:var(--ink);white-space:normal}
 .ep-stat-word{font:700 .72rem/1.2 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.ep-stat.is-weather{min-width:128px;padding-inline:16px}
+.ep-stat.is-weather b{font:700 .95rem/1.3 var(--body);color:var(--ink);white-space:normal;text-wrap:balance}
+.ep-weather-icons{display:flex;gap:6px;padding:2px 0 1px}
+.ep-weather-icons svg{width:22px;height:22px;fill:none;stroke:#A9852F;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+@media (min-width:640px){.ep-stat.is-weather{min-width:0;grid-column:span 2}}
 .ep-stars{display:flex;gap:1px;padding:4px 0 3px}
 .ep-stars svg{width:19px;height:19px;stroke:var(--line);stroke-width:1.5}
 .ep-stars svg.on{fill:var(--gold);stroke:#A9852F}
