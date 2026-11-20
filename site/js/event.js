@@ -106,7 +106,12 @@
     i = Math.max(0, Math.min(total - 1, i));
     if (!reduceMotion && i !== idx) {
       target = i; clearTimeout(targetTimer);
-      targetTimer = setTimeout(function () { target = null; }, 1200);
+      targetTimer = setTimeout(function () {
+        /* the move was interrupted (for example by a swipe): follow the slide that is actually shown */
+        if (target == null) return;
+        target = null;
+        settle(Math.max(0, Math.min(total - 1, Math.round(track.scrollLeft / (track.clientWidth || 1)))));
+      }, 1200);
     }
     track.scrollTo({ left: i * track.clientWidth, behavior: reduceMotion ? "auto" : "smooth" });
     settle(i);

@@ -6,7 +6,7 @@ import worker from './photos.js';
 const TEMPLATE = '<title>{{TITLE}}</title><script id="event-data" type="application/json">{{EVENT_JSON}}</script>';
 const EVENT = { slug: '2026-09-25-fall-camporee', title: 'Fall Camporee', cover: 'events/x/cover.jpg', memories: [] };
 
-function makeEnv(objects = {}) {
+function makeEnv(objects = {}, { templateMissing = false } = {}) {
   const asked = [];
   return {
     asked,
@@ -14,6 +14,7 @@ function makeEnv(objects = {}) {
     ASSETS: {
       async fetch(req) {
         const url = new URL(typeof req === 'string' ? req : req.url);
+        if (url.pathname === '/event' && templateMissing) return new Response('<h1>Page not found</h1>', { status: 404, headers: { 'content-type': 'text/html' } });
         if (url.pathname === '/event') return new Response(TEMPLATE, { headers: { 'content-type': 'text/html' } });
         if (url.pathname === '/404') return new Response('<h1>Page not found</h1>', { headers: { 'content-type': 'text/html' } });
         return new Response('static ' + url.pathname);
@@ -61,4 +62,20 @@ test('everything else falls through to the static files', async () => {
     const res = await get(path, env);
     assert.equal(await res.text(), 'static ' + path);
   }
+});
+
+test('the raw template at /event and /event.html is a 404', async () => {
+  for (const path of ['/event', '/event.html']) {
+    const res = await get(path, makeEnv());
+    assert.equal(res.status, 404, path);
+    const body = await res.text();
+    assert.match(body, /Page not found/);
+    assert.ok(!body.includes('{{'), path);
+  }
+});
+
+test('a missing template is a 404, never a 200', async () => {
+  const env = makeEnv({ 'events/2026-09-25-fall-camporee/event.json': JSON.stringify(EVENT) }, { templateMissing: true });
+  const res = await get('/photos/2026-09-25-fall-camporee', env);
+  assert.equal(res.status, 404);
 });

@@ -1,4 +1,4 @@
-// Tests for the event page renderer. Run: node --test worker/
+// Tests for the event page renderer. Run: node --test 'worker/*.test.js'
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { renderEvent, escapeHtml, safeJson, MEDIA_BASE } from './render.js';

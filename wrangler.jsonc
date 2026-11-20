@@ -2,7 +2,7 @@
 // Publishes everything in site/ as-is; there is no build step.
 // One small Worker script (worker/photos.js) runs only for /photos/* to fill each
 // event page from the photo bucket (approved by Chandra 2026-11-19). /photos itself
-// stays the static photos.html.
+// stays the static photos.html. /event and /event.html (the raw template) return 404.
 {
   "name": "troop134",
   "compatibility_date": "2026-10-01",
@@ -11,7 +11,7 @@
     "directory": "./site",
     "binding": "ASSETS",
     "not_found_handling": "404-page",
-    "run_worker_first": ["/photos/*"]
+    "run_worker_first": ["/photos/*", "/event", "/event.html"]
   },
   "r2_buckets": [
     { "binding": "ALBUMS", "bucket_name": "troop134-albums" }

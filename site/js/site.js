@@ -71,7 +71,7 @@
   function loadEvents(done) {
     var fallback = function () { done(window.SITE_EVENTS || S.events || []); };
     if (!/^https?:$/.test(location.protocol) || !window.fetch) { fallback(); return; }
-    fetch("data/events.txt", { cache: "no-cache" })
+    fetch("/data/events.txt", { cache: "no-cache" })
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
       .then(function (t) { done(parseEventsText(t)); })
       .catch(fallback);
